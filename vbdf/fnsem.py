@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from datetime import *
-import func.fnfn as fn
+import pyvba.fnfn as fn
 
 def add_col_df(df, colname, colval = False, indx=False):
     if indx == False:
@@ -43,7 +43,7 @@ def vlookup(df0,refdic,refcol,nwcol):
             df[nwcol] = df.reset_index()[refcol].map(refdic).values
             return df
         except:
-            df = map_df_dic(df0,refdic,refcol,nwcol)
+            df = fn.map_df_dic(df0,refdic,refcol,nwcol)
             return df
     else:
         ndf = df0.merge(refdic, on=refcol)
