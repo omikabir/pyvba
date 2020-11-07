@@ -10,18 +10,18 @@ an attempt to wrap vba functions to python pandas with an intension to compile v
 
 ## primary difference between excel and pandas dataframe
 
-*number of columns: in excel there are 16382 columns in every sheet so we can use any column from that but dataframe columns are bound to data and we have to create new column every time while it needs, in following ways we can create new column*
+*number of columns:* in excel there are 16382 columns in every sheet so we can use any column from that during calculation but dataframe columns are bound to data and we have to create new column every time while it needs, in following ways we can create new column
 ```
 df = df.assign(new_column = "NA")     #column inserted at last, here new_column = column name and "NA" = rows value of new column
 df.insert(1, 'new-column', "NA", allow_duplicates=False)   #column inserted by index number, here 1 = index number
 ```
 ## ways to interpreat excel vba into python padas dataframe
 
-generally, in vba, a formula/condition can be applied on column 
-1. using for loop
-2. using autofill
+in vba, a formula/condition can be applied on column using for loop where data can be referenced in 2 ways
+1. only cell as ref (vba function *instr/datediff* use cell wise reference) 
+2. cell + range both used as ref (vba function *countif/match* use both, cell and range as reference)
 
-### lets, concat 2 column and store data into a new column of a dataframe
+### approch where, only cell used as ref. lets concat 2 columns of dataframe and store value into a new column using for loop similar to vba for loop
 ```
 using vba like **For loop**
 
@@ -37,9 +37,25 @@ def concat(df, column_1, column_2, new_column_name):      #column_1 and conlumn_
 using **pandas method**
   df['new_column_name'] = df['column_1'].str.cat(df['column_2'])
 ```
+### approch where, cell + range both used as ref. lets implement countif function for dataframe
+in vba countif function can be written as *application.countif(range("A2"),range("A:A"))*, we can apply this function using for loop to get count of all cells value in column A & can store the value in column B. for dataframe it can be implement as following
+```
+def countif(df0,ref_col_as_range,ref_col_for_Cells):
+    if isinstance(ref_col_as_range,str):
+        df = df0.assign(coln = 'NA')
+        rdf = df[ref_col_as_range]
+        reflst = rdf.values.tolist()
+        vdf = df[ref_col_for_Cells]
+        nwlst = []
+        for i in vdf:
+            try:
+                count = reflst.count(i)
+                nwlst.append(count)
+            except:
+                nwlst.append('0')
+    df['coln'] = nwlst
+    return df
+```
 
 
-#### Approch 1:
 
-
-### Approch 2:
