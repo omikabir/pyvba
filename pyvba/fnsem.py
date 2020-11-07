@@ -1,7 +1,10 @@
 import pandas as pd
 import numpy as np
 from datetime import *
+import os
 import pyvba.fnfn as fn
+
+pt = os.getcwd()
 
 def add_col_df(df, colname, colval = False, indx=False):
     if indx == False:
@@ -54,13 +57,18 @@ def catsemrw(df0):
     df['cat'] = df.apply(lambda row: TS(row.SUMMARY), axis = 1)
     return df
 
-def get_region(df,dfdb):
-    df4 = df
-    df5 = add_col_df(df4,'ShortCode')
-    df5['ShortCode'] = df5.apply(lambda x : x.CUSTOMATTR15[0:5], axis = 1)
-    df6 = vlookup(df5,dfdb,'ShortCode','NA')
-    df6.drop('ShortCode', axis='columns', inplace=True)
-    return df6
+def get_region(df,column_contains_code):
+    codemap = ""
+    if "\func" in pt:
+        codemap = os.getcwd() + "\\scode_map.csv"
+    else:
+        codemap = os.getcwd() + "\\func\\scode_map.csv"
+    dmap = pd.read_csv(codemap)
+    df1 = add_col_df(df,'scode')
+    df1['scode'] = df1[column_contains_code].apply(lambda x : x[0:5])
+    df3 = vlookup(df1,dmap,'scode','NA')
+    df3 = df3.drop('scode', axis='columns')
+    return df3
 
 def cat_region(df):
     df1 = catsemrw(df)
@@ -126,4 +134,3 @@ def techwise(df0):
             print(i)
     G = G2 + chr(10) + chr(10) + G3 + chr(10) + chr(10) + G4
     print(G)
-
