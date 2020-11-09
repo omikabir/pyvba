@@ -1,12 +1,14 @@
 # pyvba
-an attempt to wrap vba functions to python pandas with an intension to compile vba procedure into python. this is a guide with few pre build functions especially for vba developer
+an attempt to wrap vba functions to python pandas. this is a mini reference with few pre build functions library that writen to use like excel vba functions
 
 ## Requirments:
-**Basic knowledge about python programing (especially python datatype, dictionary, list, conditional, loop , function and lambda function)**
+**Basic knowledge about python programing (especially python datatype, dictionary, list, conditional, loop , function and lambda function) is good to go. if not, look through the project will give basic ideas about working priciples**
 
 ## Content:
-- basic understanding and example of approches
-- essential convertion methods
+- basic understanding and examples of approches
+- essential pandas functions and usage
+- examples of data and datatype conversion 
+- usage example of pre build functions
 
 ## primary difference between excel and pandas dataframe
 
@@ -34,8 +36,7 @@ def concat(df, column_1, column_2, new_column_name):      #column_1 and conlumn_
         df.loc[i,new_column_name] = str(data_1) + str(data_2)
     return df
 
-using **pandas method**
-  df['new_column_name'] = df['column_1'].str.cat(df['column_2'])
+result_dataframe = concat(mydataframe,"name_of_column1","name_of_column_x","new_column_name")
 ```
 
 ### approch where, cell + range both used as ref. lets implement countif function for dataframe
@@ -71,4 +72,74 @@ for i in range(len(df)):
     df.loc[i,'new_column'] = countif(list_as_range, cell_value)   #calling above functions
 
 print(df)
+```
+
+## pandas essential functions and usage
+like **autofil** in excel VBA, pandas most of functions won't need to apply through loop.
+
+### table for visualizing and testing
+
+<table border="2">
+  <th>PRODUCT</th>
+  <th>ZIPCODE</th>
+  <th>SHIPMENT</th>
+  <th>DELIVERY</th>
+  <th>PRICE</th>
+  <th rowspan="10" colspan="2">
+    <details><summary>CLICK TO SEE TABLE CODE</summary>
+<p>
+
+###### Copy & Paste should work
+
+```python
+import pandas as pd
+df = pd.DataFrame([['Iphone','DHDEM26',
+'11-09-2020 12:14','11-20-2020 12:24',
+'400'],['Iphone','CGHTZ09',
+'11-09-2020 12:14','11-20-2020 12:24',
+'400'],['dell','LXRGN32',
+'11-09-2020 12:14','11-20-2020 12:24',
+'300'],['dell','LXRGN31',
+'11-09-2020 12:13','11-20-2020 12:24',
+'300'],['Samsung ','SGSJP04',
+'11-09-2020 12:12','11-20-2020 12:24',
+'250'],['Samsung ','CXMHK36',
+'11-09-2020 12:11','11-20-2020 12:24',
+'250'],['Samsung ','CGFTK29',
+'11-09-2020 12:10','11-20-2020 12:24',
+'250'],['dell','CGKTLB6',
+'11-09-2020 12:10','11-20-2020 12:24',
+'300'],['dell','CMBRR57',
+'11-09-2020 12:10','11-20-2020 12:24',
+'300']],columns=('PRODUCT','ZIPCODE',
+            'SHIPMENT','DELIVERY','PRICE'))
+print(df)
+```
+
+</p>
+</details>
+  </th>
+<tr><td>Iphone</td><td>DHDEM26</td><td>11-09-2020 12:14</td><td>11-20-2020 12:24</td><td>400</td></tr>
+<tr><td>Iphone</td><td>CGHTZ09</td><td>11-09-2020 12:14</td><td>11-20-2020 12:24</td><td>400</td></tr>
+<tr><td>dell</td><td>LXRGN32</td><td>11-09-2020 12:14</td><td>11-20-2020 12:24</td><td>300</td></tr>
+<tr><td>dell</td><td>LXRGN31</td><td>11-09-2020 12:13</td><td>11-20-2020 12:24</td><td>300</td></tr>
+<tr><td>Samsung </td><td>SGSJP04</td><td>11-09-2020 12:12</td><td>11-20-2020 12:24</td><td>250</td></tr>
+<tr><td>Samsung </td><td>CXMHK36</td><td>11-09-2020 12:11</td><td>11-20-2020 12:24</td><td>250</td></tr>
+<tr><td>Samsung </td><td>CGFTK29</td><td>11-09-2020 12:10</td><td>11-20-2020 12:24</td><td>250</td></tr>
+<tr><td>dell</td><td>CGKTLB6</td><td>11-09-2020 12:10</td><td>11-20-2020 12:24</td><td>300</td></tr>
+<tr><td>dell</td><td>CMBRR57</td><td>11-09-2020 12:10</td><td>11-20-2020 12:24</td><td>300</td></tr>
+</table>
+
+#### filtering , remove duplicate , sorting
+```
+#filtering by partial string Match
+    df1 = df[df.PRODUCT.str.contains('del')]
+    df2 = df[df.PRODUCT.str.contains('del') & df.ZIPCODE.str.contains('LXRGN')]
+    df3 = df[df.PRODUCT.str.contains('del') | df.ZIPCODE.str.contains('LXRGN')]
+
+#filtering by Exact string Match
+
+
+
+
 ```
