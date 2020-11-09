@@ -130,7 +130,6 @@ def countifs(df0,*argv):
                 xx = 'incorrect datatype, datatype can be "str" or "pd.core.series.Series" only'
                 return xx
             n = n + 1
-        print(pds_cnt,st_cnt)
         n = 0
         if st_cnt != 0:
             while n<len(argv):
